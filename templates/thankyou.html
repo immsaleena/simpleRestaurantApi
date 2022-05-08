@@ -1,0 +1,12 @@
+{% extends 'master.html' %}
+{% include 'header.html' %}
+
+{% block title %} {% endblock %}
+
+{% block thankyou %}
+<div class="container" text-align: center;>
+    <h1 text-align: center;>Thank-You for ordering! Please wait for a while.</h>
+    <a button type="addorder" href="/" class="btn btn-warning">Add new order</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends 'master.html' %}
+{% include 'header.html' %}
+
+{% block form %}
+<div class="container">
+    <button id="btn_add" style="float: right;" onClick="addMoreOrder()" class="btn btn-success">+ Add More Order</button>
+    <div id="order_list">
+        <table class="table">
+            Order <span class="current_order" id="1">1</span>
+            <tr>
+                <td>Customer Name</td>
+                <td><input type="text" name="customer_name" class="form-control customerName"></td>
+            </tr>
+            <tr>
+                <td>Order Table Number</td>
+                <td>
+                    <select name="order_table" id="order_table" class="form-control orderTable">
+                        <option value="">Choose the table number</option>
+                        <option value="Table_01">Table_01</option>
+                        <option value="Table_02">Table_02</option>
+                        <option value="Table_03">Table_03</option>
+                        <option value="Table_04">Table_04</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Order Menu</td>
+                <td><input type="text" name="order_item" class="form-control orderMenu"></td>
+            </tr>
+        </table>
+        <br/>
+    </div>
+    <button type="submit" id="btn_submit" class="btn btn-primary" onClick="placeOrder()">Place Order</button>
+</div>
+<script>
+
+    let mainDivContainer = document.getElementById('order_list')
+
+    function getLastIndex() {
+        const all_span = document.getElementsByClassName("current_order");
+        const last_span = all_span[all_span.length-1];
+        return last_span.id;
+    }
+
+    function placeOrder() {
+        const customerNameInArray = getCustomerNameInArray();
+        const orderTableInArray = getOrderTableInArray();
+        const orderMenuInArray = getOrderMenuInArray();
+        
+        if(customerNameInArray.includes('') || orderTableInArray.includes('') || orderMenuInArray.includes('')){
+            window.alert("Please input all required field");
+            return;
+        }
+        
+        let data = new FormData();
+        data.append('customer_name', customerNameInArray);
+        data.append('order_table', orderTableInArray);
+        data.append('order_item', orderMenuInArray);
+
+        const xhttp = new XMLHttpRequest();
+
+        xhttp.open("POST", "/");
+        xhttp.send(data);
+        window.location.href = "/added";
+    }
+
+    function getCustomerNameInArray() {
+        const customerName = document.getElementsByClassName('customerName');
+        let arr = []
+        for(let i= 0; i<customerName.length; i++){
+            arr.push(customerName[i].value);
+        }
+
+        return arr;
+    }
+
+    function getOrderTableInArray() {
+        const orderTable =document.getElementsByClassName('orderTable');
+        let arr = []
+        for(let i= 0; i<orderTable.length; i++){
+            arr.push(orderTable[i].value);
+        }
+
+        return arr;
+    }
+
+    function getOrderMenuInArray() {
+        const orderMenu =document.getElementsByClassName('orderMenu');
+        let arr = []
+        for(let i= 0; i<orderMenu.length; i++){
+            let val = orderMenu[i].value
+            
+            arr.push(val.replaceAll(',', ' '));
+        }
+        return arr;
+    }
+
+    function addMoreOrder(){
+        const current_index = parseInt(getLastIndex()) + 1;
+
+        // Create an "table" node:
+        const node = document.createElement("table");
+        node.classList.add('table');
+        node.innerHTML = "Order <span class='current_order' id='"+current_index+"'>"+current_index+"</span>\
+                <tr>\
+                <td>Customer Name</td>\
+                <td><input type='text' name='customer_name' class='form-control customerName'></td>\
+            </tr>\
+            <tr>\
+                <td>Order Table Number</td>\
+                <td>\
+                    <select name='order_table' id='order_table' class='form-control orderTable'>\
+                        <option value=''>Choose the table number</option>\
+                        <option value='Table_01'>Table_01</option>\
+                        <option value='Table_02'>Table_02</option>\
+                        <option value='Table_03'>Table_03</option>\
+                        <option value='Table_04'>Table_04</option>\
+                        <option value='Table_05'>Table_05</option>\
+                    </select>\
+                </td>\
+            </tr>\
+            <tr>\
+                <td>Order Menu</td>\
+                <td><input type='text' name='order_item' class='form-control orderMenu'></td>\
+            </tr><br/>";
+        mainDivContainer.appendChild(node);
+    }
+</script>
+{% endblock %}

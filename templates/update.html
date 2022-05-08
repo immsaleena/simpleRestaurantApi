@@ -1,0 +1,60 @@
+{% extends 'master.html' %}
+{% include 'header.html' %}
+
+{% block form %}
+<div class="container">
+    <form method="post" action="">
+        <table class="table">
+            <tr>
+                <td>Order ID</td>
+                <td><input type="text" name="order_id" class="form-control" value="{{ orders[0] }}" readonly></td>
+            </tr>
+            <tr>
+                <td>Customer Name</td>
+                <td><input type="text" name="customer_name" class="form-control" value="{{ orders[1] }}"></td>
+            </tr>
+            <tr>
+                <td>Order Table Number</td>
+                <td>
+                    <select name="order_table" id="order_table" class="form-control">
+                        {% if orders[2]=='Table_01' %} 
+                            <option value="Table_01" selected="selected">Table_01</option>
+                        {% else %}
+                            <option  value="Table_01">Table_01</option>
+                        {% endif %}
+
+                        {% if orders[2]=='Table_02' %} 
+                            <option value="Table_02" selected="selected">Table_02</option>
+                        {% else %}
+                            <option  value="Table_02">Table_02</option>
+                        {% endif %}
+
+                        {% if orders[2]=='Table_03' %} 
+                            <option value="Table_03" selected="selected">Table_03</option>
+                        {% else %}
+                            <option  value="Table_03">Table_03</option>
+                        {% endif %}
+
+                        {% if orders[2]=='Table_04' %} 
+                            <option value="Table_04" selected="selected">Table_04</option>
+                        {% else %}
+                            <option  value="Table_04">Table_04</option>
+                        {% endif %}        
+                    </select>
+                </td>  
+            </tr>
+            <tr>
+                <td>Order Item</td>
+                <td><input type="text" name="order_item" class="form-control" value="{{ orders[3] }}"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="submit" id="submit" class="btn btn-warning">Update</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+{% endblock %}
+
